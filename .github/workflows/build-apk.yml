@@ -23,11 +23,22 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || true
+      - name: Setup Gradle and Keystore
+        run: |
+          # Generate debug.keystore if it does not exist
+          if [ ! -f debug.keystore ]; then
+            echo "Generating debug.keystore..."
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          # Setup gradlew wrapper if missing
+          if [ ! -f gradlew ]; then
+            echo "Setting up Gradle wrapper..."
+            gradle wrapper || true
+          fi
+          chmod +x gradlew || true
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace || gradle assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
