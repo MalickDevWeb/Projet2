@@ -1,0 +1,6 @@
+{
+  "name": "SEN AURA EVENT",
+  "description": "Plateforme événementielle intelligente développée par SEN AURA TECH - Écosystème digital connecté, IA, networking & gestion de flux.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
